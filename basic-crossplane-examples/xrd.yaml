@@ -1,0 +1,45 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: CompositeResourceDefinition
+metadata:
+  name: e2e-sandbox-testing.tlou.kgolo
+spec:
+  group: tlou.kgolo
+  names:
+    kind: XSandBoxGenerator
+    plural: xsandboxgenerators
+  claimNames:
+    kind: SandBoxGenerator
+    plural: sandboxgenerators
+  versions:
+    - name: v1alpha1
+      served: true
+      referenceable: true
+      schema:
+        openAPIV3Schema:
+          type: object
+          properties:
+            spec:
+              type: object
+              properties:
+                argo_appset:
+                  type: object
+                  properties:
+                    git:
+                      type: object
+                      properties:
+                        app_generators_repo:
+                          type: object
+                          required:
+                            - repoUrl
+                            - revision
+                          properties:
+                            repoUrl: string
+                            revision: string
+                        deployment_generators_repo:
+                          type: object
+                          required:
+                            - repoUrl
+                            - revision
+                          properties:
+                            repoUrl: string
+                            revision: string
