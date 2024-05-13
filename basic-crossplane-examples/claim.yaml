@@ -1,0 +1,13 @@
+apiVersion: tlou.kgolo/v1alpha1
+kind: XSandBoxGenerator
+metadata:
+  name: jupiter-generator
+spec:
+  argo_appset:
+    git:
+      app_generators_repo:
+        repoUrl: ''
+        revision: ''
+      deployment_generators_repo:
+        repoUrl: ''
+        revision: ''
