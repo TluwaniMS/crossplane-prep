@@ -1,7 +1,7 @@
 apiVersion: apiextensions.crossplane.io/v1
 kind: CompositeResourceDefinition
 metadata:
-  name: e2e-sandbox-testing.tlou.kgolo
+  name: xsandboxgenerators.tlou.kgolo
 spec:
   group: tlou.kgolo
   names:

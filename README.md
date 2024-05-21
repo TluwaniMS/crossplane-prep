@@ -42,3 +42,33 @@ The XRD delineates the custom API that users invoke to solicit the assortment of
 ## Claims
 
 Claims epitomize a grouping of managed resources encapsulated within a singular Kubernetes object, situated within a namespace. Users instantiate claims upon accessing the bespoke API outlined in the CompositeResourceDefinition.
+
+
+Crossplane installation:
+
+```
+helm repo add crossplane-stable https://charts.crossplane.io/stable
+```
+
+```
+helm repo update
+```
+
+```
+helm install crossplane \
+--namespace crossplane-system \
+--create-namespace crossplane-stable/crossplane 
+```
+
+kubectl apply -f basic-crossplane-examples/xrd.yaml
+
+kubectl apply -f basic-crossplane-examples/composition.yaml
+
+kubectl apply -f basic-crossplane-examples/claim.yaml
+
+
+kubectl delete -f basic-crossplane-examples/xrd.yaml
+
+kubectl delete -f basic-crossplane-examples/composition.yaml
+
+kubectl delete -f basic-crossplane-examples/claim.yaml
