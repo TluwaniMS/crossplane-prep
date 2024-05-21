@@ -21,25 +21,3 @@ spec:
             spec:
               type: object
               properties:
-                argo_appset:
-                  type: object
-                  properties:
-                    git:
-                      type: object
-                      properties:
-                        app_generators_repo:
-                          type: object
-                          required:
-                            - repoUrl
-                            - revision
-                          properties:
-                            repoUrl: string
-                            revision: string
-                        deployment_generators_repo:
-                          type: object
-                          required:
-                            - repoUrl
-                            - revision
-                          properties:
-                            repoUrl: string
-                            revision: string
