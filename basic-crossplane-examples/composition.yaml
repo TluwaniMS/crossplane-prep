@@ -2,26 +2,66 @@ apiVersion: apiextensions.crossplane.io/v1
 kind: Composition
 spec:
   compositeTypeRef:
-    apiVersion: ''
-    kind: ''
+    apiVersion: 'tlou.kgolo/v1alpha1'
+    kind: 'XSandBoxGenerator'
   resources:
-    # Argocd ApplicationSet Resource
-    - name: 
-      patches:
-        - type: FromCompositeFieldPath
-          fromFieldPath: ''
-          toFieldPath: ''
-        - type: FromCompositeFieldPath
-          fromFieldPath: ''
-          toFieldPath: ''
-        - type: FromCompositeFieldPath
-          fromFieldPath: ''
-          toFieldPath: ''
+    - name: Service
       base:
-        apiVersion: ''
+        apiVersion: 'kubernetes.crossplane.io/v1alpha1'
         kind: Object
         metadata:
-          name: ''
+          name: 'service'
         spec:
           forProvider:
             manifest:
+              apiVersion: v1
+              kind: Service
+              metadata:
+                name: basic-node-web-server-service
+              spec:
+                type: ClusterIP
+                selector:
+                  app: basic-node-web-server
+                ports:
+                  - protocol: TCP
+                    port: 3002
+                    targetPort: 3002
+    # Argocd ApplicationSet Resource
+    - name: Deployment
+      patches:
+        - type: CombineFromComposite
+          combine:
+            variables:
+              - fromFieldPath: 'spec.name'
+            strategy: string
+            string:
+              fmt: '%s-deployment'
+          toFieldPath: 'spec.forProvider.manifest.metadata.name'
+      base:
+        apiVersion: 'kubernetes.crossplane.io/v1alpha1'
+        kind: Object
+        metadata:
+          name: 'deployment'
+        spec:
+          forProvider:
+            manifest:
+              apiVersion: apps/v1
+              kind: Deployment
+              metadata:
+                name: basic-node-web-server-deployment
+              spec:
+                replicas: 1
+                selector:
+                  matchLabels:
+                    app: basic-node-web-server
+                template:
+                  metadata:
+                    labels:
+                      app: basic-node-web-server
+                  spec:
+                    containers:
+                      - name: basic-node-web-server
+                        image: tm63/basic-node-web-server:v1.3.0
+                        imagePullPolicy: IfNotPresent
+                        ports:
+                          - containerPort: 3002

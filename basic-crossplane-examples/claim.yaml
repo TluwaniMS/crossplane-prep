@@ -3,3 +3,4 @@ kind: XSandBoxGenerator
 metadata:
   name: jupiter-generator
 spec:
+  name: jupi
