@@ -18,6 +18,8 @@ spec:
         metadata:
           name: 'service'
         spec:
+          providerConfigRef:
+            name: kubernetes-provider-config
           forProvider:
             manifest:
               apiVersion: v1
@@ -53,6 +55,8 @@ spec:
         metadata:
           name: 'deployment'
         spec:
+          providerConfigRef:
+            name: kubernetes-provider-config
           forProvider:
             manifest:
               apiVersion: apps/v1
