@@ -9,7 +9,7 @@ spec:
   resources:
     - name: Service
       patches:
-        - fromFieldPath: 'metadata.namespace' # Ensure namespace is patched here
+        - fromFieldPath: 'metadata.name' # Ensure namespace is patched here
           toFieldPath: 'spec.forProvider.manifest.metadata.namespace'
       base:
         apiVersion: 'kubernetes.crossplane.io/v1alpha1'
@@ -23,7 +23,7 @@ spec:
               kind: Service
               metadata:
                 name: basic-node-web-server-service
-                namespace: default
+                namespace: ''
               spec:
                 type: ClusterIP
                 selector:
@@ -43,14 +43,13 @@ spec:
             string:
               fmt: '%s-deployment'
           toFieldPath: 'spec.forProvider.manifest.metadata.name'
-        - fromFieldPath: 'metadata.namespace' # Ensure namespace is patched here
+        - fromFieldPath: 'metadata.name' # Ensure namespace is patched here
           toFieldPath: 'spec.forProvider.manifest.metadata.namespace'
       base:
         apiVersion: 'kubernetes.crossplane.io/v1alpha1'
         kind: Object
         metadata:
           name: 'deployment'
-          namespace: default
         spec:
           forProvider:
             manifest:
@@ -58,6 +57,7 @@ spec:
               kind: Deployment
               metadata:
                 name: basic-node-web-server-deployment
+                namespace: ''
               spec:
                 replicas: 1
                 selector:

@@ -2,6 +2,5 @@ apiVersion: tlou.kgolo/v1alpha1
 kind: XSandBoxGenerator
 metadata:
   name: jupiter-generator
-  namespace: default
 spec:
   name: jupi
