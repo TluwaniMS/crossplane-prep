@@ -59,18 +59,3 @@ helm install crossplane \
 --namespace crossplane-system \
 --create-namespace crossplane-stable/crossplane 
 ```
-
-kubectl apply -f basic-crossplane-examples/rbac.yaml
-
-kubectl apply -f basic-crossplane-examples/provider.yaml
-
-kubectl apply -f basic-crossplane-examples/xrd.yaml
-
-kubectl apply -f basic-crossplane-examples/composition.yaml
-
-kubectl apply -f basic-crossplane-examples/claim.yaml
-
-
-kubectl delete -f basic-crossplane-examples/xrd.yaml
-
-kubectl delete -f basic-crossplane-examples/composition.yaml
