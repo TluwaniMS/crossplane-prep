@@ -23,6 +23,7 @@ spec:
               kind: Service
               metadata:
                 name: basic-node-web-server-service
+                namespace: default
               spec:
                 type: ClusterIP
                 selector:
@@ -49,6 +50,7 @@ spec:
         kind: Object
         metadata:
           name: 'deployment'
+          namespace: default
         spec:
           forProvider:
             manifest:
