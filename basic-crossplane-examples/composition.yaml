@@ -11,6 +11,7 @@ spec:
       patches:
         - fromFieldPath: 'metadata.name' # Ensure namespace is patched here
           toFieldPath: 'spec.forProvider.manifest.metadata.namespace'
+          type: FromCompositeFieldPath
       base:
         apiVersion: 'kubernetes.crossplane.io/v1alpha1'
         kind: Object
@@ -45,6 +46,7 @@ spec:
           toFieldPath: 'spec.forProvider.manifest.metadata.name'
         - fromFieldPath: 'metadata.name' # Ensure namespace is patched here
           toFieldPath: 'spec.forProvider.manifest.metadata.namespace'
+          type: FromCompositeFieldPath
       base:
         apiVersion: 'kubernetes.crossplane.io/v1alpha1'
         kind: Object

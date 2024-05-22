@@ -70,5 +70,3 @@ kubectl apply -f basic-crossplane-examples/claim.yaml
 kubectl delete -f basic-crossplane-examples/xrd.yaml
 
 kubectl delete -f basic-crossplane-examples/composition.yaml
-
-kubectl delete -f basic-crossplane-examples/claim.yaml
