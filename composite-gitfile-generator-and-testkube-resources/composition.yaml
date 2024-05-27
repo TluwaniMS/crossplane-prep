@@ -155,8 +155,36 @@ spec:
                       type: basic
     - name: 'TestKubeTestTrigger'
       patches:
+        - type: CombineFromComposite
+          combine:
+            variables:
+              - fromFieldPath: 'metadata.name'
+              - fromFieldPath: 'spec.pullRequest'
+            strategy: string
+            string:
+              fmt: '%s-%s-test-trigger'
+          toFieldPath: 'spec.forProvider.manifest.metadata.name'
         - type: FromCompositeFieldPath
-          toFieldPath: 'spec.forProvider.manifest'
+          fromFieldPath: 'spec.testKube.testTrigger.resourceSelector.resourceType'
+          toFieldPath: 'spec.forProvider.manifest.spec.resource'
+        - type: CombineFromComposite
+          combine:
+            variables:
+              - fromFieldPath: 'metadata.name'
+              - fromFieldPath: 'spec.pullRequest'
+            strategy: string
+            string:
+              fmt: '%s-%s-apps'
+          toFieldPath: 'spec.forProvider.manifest.spec.resourceSelector.namespace'
+        - type: CombineFromComposite
+          combine:
+            variables:
+              - fromFieldPath: 'metadata.name'
+              - fromFieldPath: 'spec.pullRequest'
+            strategy: string
+            string:
+              fmt: '%s-%s-test'
+          toFieldPath: 'spec.forProvider.manifest.spec.testSelector.name'
       base:
         apiVersion: 'kubernetes.crossplane.io/v1alpha1'
         kind: Object
@@ -167,3 +195,19 @@ spec:
             name: kubernetes-provider-config
           forProvider:
             manifest:
+              apiVersion: tests.testkube.io/v1
+              kind: TestTrigger
+              metadata:
+                name: test-trigger
+                namespace: testkube
+              spec:
+                resource: deployment
+                resourceSelector:
+                  namespace: ''
+                  name: basic-node-web-server-deployment #NB! will come from application name
+                event: created
+                action: run
+                execution: test
+                testSelector:
+                  name: test
+                  namespace: testkube
