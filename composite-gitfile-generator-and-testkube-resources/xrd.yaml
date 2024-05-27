@@ -1,0 +1,82 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: CompositeResourceDefinition
+metadata:
+  name: xsandboxgitfilegenerators.tlou.kgolo
+spec:
+  group: tlou.kgolo
+  names:
+    kind: XSandBoxGitFileGenerator
+    plural: xsandboxgitfilegenerators
+  claimNames:
+    kind: SandBoxGitFileGenerator
+    plural: sandboxgitfilegenerators
+  versions:
+    - name: v1alpha1
+      served: true
+      referenceable: true
+      schema:
+        openAPIV3Schema:
+          type: object
+          properties:
+            spec:
+              type: object
+              properties:
+                testkube:
+                  type: object
+                  properties:
+                    testTrigger:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                        resourceSelector:
+                          type: object
+                          properties:
+                            resourceType:
+                              type: string
+                            nameSpace:
+                              type: string
+                            resourceName:
+                              type: string
+                        testSelector:
+                          type: object
+                          properties:
+                            testName:
+                              type: string
+                    test:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                        type:
+                          type: string
+                        repository:
+                          type: object
+                          properties:
+                            type:
+                              type: string
+                            uri:
+                              type: string
+                            branch:
+                              type: string
+                appset:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    generator:
+                      type: object
+                      properties:
+                        repoUrl:
+                          type: string
+                        revision:
+                          type: string
+                        filePath:
+                          type: string
+                    source:
+                      type: object
+                      properties:
+                        repoUrl:
+                          type: string
+                        targetRevision:
+                          type: string
