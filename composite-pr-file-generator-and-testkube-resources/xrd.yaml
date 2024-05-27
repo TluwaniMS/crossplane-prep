@@ -1,0 +1,53 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: CompositeResourceDefinition
+metadata:
+  name: xsandboxprgenerators.tlou.kgolo
+spec:
+  group: tlou.kgolo
+  names:
+    kind: XSandBoxPRGenerator
+    plural: xsandboxprgenerators
+  claimNames:
+    kind: SandBoxPRGenerator
+    plural: sandboxprgenerators
+  versions:
+    - name: v1alpha1
+      served: true
+      referenceable: true
+      schema:
+        openAPIV3Schema:
+          type: object
+          properties:
+            spec:
+              type: object
+              properties:
+                appset:
+                  type: object
+                  properties:
+                    project:
+                      type: string
+                    prGenerator:
+                      type: object
+                      properties:
+                        github:
+                          type: object
+                          properties:
+                            owner:
+                              type: string
+                            repo:
+                              type: string
+                    gitFileGenerator:
+                      type: object
+                      properties:
+                        repoUrl:
+                          type: string
+                        revision:
+                          type: string
+                        filePaths:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              path:
+                                type: string
+
