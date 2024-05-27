@@ -8,6 +8,9 @@ spec:
     kind: 'XSandBoxGitFileGenerator'
   resources:
     - name: 'ArgocdAppset'
+      patches:
+        - type:
+          toFieldPath: ''
       base:
         apiVersion: 'kubernetes.crossplane.io/v1alpha1'
         kind: Object
@@ -19,6 +22,9 @@ spec:
           forProvider:
             manifest:
     - name: 'TestKubeTest'
+      patches:
+        - type:
+          toFieldPath: ''
       base:
         apiVersion: 'kubernetes.crossplane.io/v1alpha1'
         kind: Object
@@ -30,6 +36,9 @@ spec:
           forProvider:
             manifest:
     - name: 'TestKubeTestTrigger'
+      patches:
+        - type:
+          toFieldPath: ''
       base:
         apiVersion: 'kubernetes.crossplane.io/v1alpha1'
         kind: Object
