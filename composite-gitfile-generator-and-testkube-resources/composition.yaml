@@ -98,8 +98,21 @@ spec:
 
     - name: 'TestKubeTest'
       patches: FromCompositeFieldPath
-        - type:
-          toFieldPath: 'spec.forProvider.manifest'
+        - type: CombineFromComposite
+          combine:
+            variables:
+              - fromFieldPath: 'metadata.name'
+              - fromFieldPath: 'spec.pullRequest'
+            strategy: string
+            string:
+              fmt: '%s-%s-test'
+          toFieldPath: 'spec.forProvider.manifest.metadata.name'
+        - type: FromCompositeFieldPath
+          fromFieldPath: 'spec.testKube.test.type'
+          toFieldPath: 'spec.forProvider.manifest.spec.type'
+        - type: FromCompositeFieldPath
+          fromFieldPath: 'spec.testKube.test.repository'
+          toFieldPath: 'spec.forProvider.manifest.spec.content.repository'
       base:
         apiVersion: 'kubernetes.crossplane.io/v1alpha1'
         kind: Object
@@ -110,6 +123,33 @@ spec:
             name: kubernetes-provider-config
           forProvider:
             manifest:
+              apiVersion: tests.testkube.io/v3
+              kind: Test
+              metadata:
+                name: playwright-testing
+                namespace: testkube
+              spec:
+                type: playwright/test
+                content:
+                  type: git
+                  repository:
+                    type: git
+                    uri: https://github.com/TluwaniMS/basic-playwright-learning
+                    branch: master
+                executionRequest:
+                  variables:
+                    USER_NAME:
+                      name: USER_NAME
+                      value: 'Jack'
+                      type: basic
+                    ENVIRONMENT:
+                      name: ENVIRONMENT
+                      value: 'development'
+                      type: basic
+                    BASE_URL:
+                      name: BASE_URL
+                      value: ''
+                      type: basic
     - name: 'TestKubeTestTrigger'
       patches: FromCompositeFieldPath
         - type:
