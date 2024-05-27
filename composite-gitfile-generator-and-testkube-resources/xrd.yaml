@@ -24,6 +24,22 @@ spec:
                 testkube:
                   type: object
                   properties:
+                    test:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                        type:
+                          type: string
+                        repository:
+                          type: object
+                          properties:
+                            type:
+                              type: string
+                            uri:
+                              type: string
+                            branch:
+                              type: string
                     testTrigger:
                       type: object
                       properties:
@@ -42,22 +58,6 @@ spec:
                           type: object
                           properties:
                             testName:
-                              type: string
-                    test:
-                      type: object
-                      properties:
-                        name:
-                          type: string
-                        type:
-                          type: string
-                        repository:
-                          type: object
-                          properties:
-                            type:
-                              type: string
-                            uri:
-                              type: string
-                            branch:
                               type: string
                 appset:
                   type: object

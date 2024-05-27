@@ -1,0 +1,30 @@
+apiVersion: tlou.kgolo/v1alpha1
+kind: XSandBoxGitFileGenerator
+metadata:
+  name: mars-generator
+spec:
+  testKube:
+    test:
+      name:
+      type:
+      repository:
+        type:
+        uri:
+        branch:
+    testTrigger:
+      name:
+      resourceSelector:
+        resourceType:
+        nameSpace:
+        resourceName:
+      testSelector:
+        testName:
+  appset:
+    name:
+    generator:
+      repoUrl:
+      revision:
+      filePath:
+    source:
+      repoUrl:
+      targetRevision:
