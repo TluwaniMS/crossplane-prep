@@ -9,8 +9,51 @@ spec:
   resources:
     - name: 'ArgocdAppset'
       patches:
-        - type:
-          toFieldPath: ''
+        - type: CombineFromComposite
+          combine:
+            variables:
+              - fromFieldPath: 'metadata.name'
+              - fromFieldPath: 'spec.pullRequest'
+            strategy: string
+            string:
+              fmt: '%s-%s-argo-appset'
+          toFieldPath: 'spec.forProvider.manifest.metadata.name'
+        - type: FromCompositeFieldPath
+          fromFieldPath: 'spec.appset.generator.repoUrl'
+          toFieldPath: 'spec.forProvider.manifest.spec.generators[0].repoURL'
+        - type: FromCompositeFieldPath
+          fromFieldPath: 'spec.appset.generator.revision'
+          toFieldPath: 'spec.forProvider.manifest.spec.generators[0].revision'
+        - type: FromCompositeFieldPath
+          fromFieldPath: 'spec.appset.generator.filePath'
+          toFieldPath: 'spec.forProvider.manifest.spec.generators[0].files'
+        - type: FromCompositeFieldPath
+          fromFieldPath: 'spec.appset.source.repoUrl'
+          toFieldPath: 'spec.forProvider.manifest.spec.template.spec.source.repoURL'
+        - type: FromCompositeFieldPath
+          fromFieldPath: 'spec.appset.source.targetRevision'
+          toFieldPath: 'spec.forProvider.manifest.spec.template.spec.source.targetRevision'
+        - type: FromCompositeFieldPath
+          fromFieldPath: 'spec.appset.source.targetRevision'
+          toFieldPath: 'spec.forProvider.manifest.spec.template.spec.project'
+        - type: CombineFromComposite
+          combine:
+            variables:
+              - fromFieldPath: 'metadata.name'
+              - fromFieldPath: 'spec.pullRequest'
+            strategy: string
+            string:
+              fmt: '%s-%s-apps'
+          toFieldPath: 'spec.forProvider.manifest.spec.template.spec.destination.namespace'
+        - type: CombineFromComposite
+          combine:
+            variables:
+              - fromFieldPath: 'metadata.name'
+              - fromFieldPath: 'spec.pullRequest'
+            strategy: string
+            string:
+              fmt: '%s-%s-argo'
+          toFieldPath: 'spec.forProvider.manifest.spec.template.metadata.name'
       base:
         apiVersion: 'kubernetes.crossplane.io/v1alpha1'
         kind: Object
@@ -21,10 +64,42 @@ spec:
             name: kubernetes-provider-config
           forProvider:
             manifest:
+              apiVersion: argoproj.io/v1alpha1
+              kind: ApplicationSet
+              metadata:
+                name: basic-argo-appset
+                namespace: argocd
+              spec:
+                goTemplate: true
+                goTemplateOptions: ['missingkey=error']
+                generators:
+                  - git:
+                      repoURL: ""
+                      revision: ""
+                      files: []
+                template:
+                  metadata:
+                    name: 'app'
+                  spec:
+                    project: default
+                    source:
+                      repoURL: https://github.com/TluwaniMS/basic-node-js-web-server-deployment
+                      targetRevision: master
+                      path: '{{.loc}}'
+                    destination:
+                      server: '{{.server}}'
+                      namespace: ''
+                    syncPolicy:
+                      automated:
+                        prune: true
+                        selfHeal: true
+                      syncOptions:
+                        - CreateNamespace=true
+
     - name: 'TestKubeTest'
-      patches:
+      patches: FromCompositeFieldPath
         - type:
-          toFieldPath: ''
+          toFieldPath: 'spec.forProvider.manifest'
       base:
         apiVersion: 'kubernetes.crossplane.io/v1alpha1'
         kind: Object
@@ -36,9 +111,9 @@ spec:
           forProvider:
             manifest:
     - name: 'TestKubeTestTrigger'
-      patches:
+      patches: FromCompositeFieldPath
         - type:
-          toFieldPath: ''
+          toFieldPath: 'spec.forProvider.manifest'
       base:
         apiVersion: 'kubernetes.crossplane.io/v1alpha1'
         kind: Object

@@ -21,6 +21,8 @@ spec:
             spec:
               type: object
               properties:
+                pullRequest:
+                  type: string
                 testkube:
                   type: object
                   properties:
@@ -49,6 +51,8 @@ spec:
                 appset:
                   type: object
                   properties:
+                    project:
+                      type: string
                     generator:
                       type: object
                       properties:
@@ -59,7 +63,10 @@ spec:
                         filePath:
                           type: array
                           items:
-                            type: string
+                            type: object
+                            properties:
+                              path:
+                                type: string
                     source:
                       type: object
                       properties:

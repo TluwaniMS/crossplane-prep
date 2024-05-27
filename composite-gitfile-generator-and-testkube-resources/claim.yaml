@@ -3,6 +3,7 @@ kind: XSandBoxGitFileGenerator
 metadata:
   name: mars-application
 spec:
+  pullRequest: feature/mars-01
   testKube:
     test:
       type: playwright/test
@@ -14,11 +15,12 @@ spec:
       resourceSelector:
         resourceType: deployment
   appset:
+    project: default
     generator:
-      repoUrl: https://github.com/TluwaniMS/argocd-app-of-app-test.git
+      repoUrl: https://github.com/TluwaniMS/argo-app-deployments
       revision: master
       filePaths:
-        - 'basi-app-set-dev-test-with-git-file-generator/*.json'
+        - path: 'dev-app/*.json'
     source:
       repoUrl: https://github.com/TluwaniMS/basic-node-js-web-server-deployment
       targetRevision: master
