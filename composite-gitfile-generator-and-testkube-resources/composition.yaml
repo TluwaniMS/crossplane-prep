@@ -74,8 +74,8 @@ spec:
                 goTemplateOptions: ['missingkey=error']
                 generators:
                   - git:
-                      repoURL: ""
-                      revision: ""
+                      repoURL: ''
+                      revision: ''
                       files: []
                 template:
                   metadata:
@@ -97,7 +97,7 @@ spec:
                         - CreateNamespace=true
 
     - name: 'TestKubeTest'
-      patches: FromCompositeFieldPath
+      patches:
         - type: CombineFromComposite
           combine:
             variables:
@@ -113,6 +113,9 @@ spec:
         - type: FromCompositeFieldPath
           fromFieldPath: 'spec.testKube.test.repository'
           toFieldPath: 'spec.forProvider.manifest.spec.content.repository'
+        - type: FromCompositeFieldPath
+          fromFieldPath: 'spec.testKube.test.environmentVariables.BASE_URL'
+          toFieldPath: 'spec.forProvider.manifest.spec.executionRequest.variables.BASE_URL.value'
       base:
         apiVersion: 'kubernetes.crossplane.io/v1alpha1'
         kind: Object
@@ -129,13 +132,13 @@ spec:
                 name: playwright-testing
                 namespace: testkube
               spec:
-                type: playwright/test
+                type: ''
                 content:
                   type: git
                   repository:
-                    type: git
-                    uri: https://github.com/TluwaniMS/basic-playwright-learning
-                    branch: master
+                    type: ''
+                    uri: ''
+                    branch: ''
                 executionRequest:
                   variables:
                     USER_NAME:
@@ -151,8 +154,8 @@ spec:
                       value: ''
                       type: basic
     - name: 'TestKubeTestTrigger'
-      patches: FromCompositeFieldPath
-        - type:
+      patches:
+        - type: FromCompositeFieldPath
           toFieldPath: 'spec.forProvider.manifest'
       base:
         apiVersion: 'kubernetes.crossplane.io/v1alpha1'

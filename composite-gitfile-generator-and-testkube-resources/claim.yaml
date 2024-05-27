@@ -11,6 +11,8 @@ spec:
         type: git
         uri: https://github.com/TluwaniMS/basic-playwright-learning
         branch: master
+      environmentVariables:
+        BASE_URL: ''
     testTrigger:
       resourceSelector:
         resourceType: deployment

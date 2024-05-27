@@ -29,6 +29,11 @@ spec:
                     test:
                       type: object
                       properties:
+                        environmentVariables:
+                          type: object
+                          properties:
+                            BASE_URL:
+                              type: string
                         type:
                           type: string
                         repository:
