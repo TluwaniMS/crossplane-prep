@@ -1,30 +1,24 @@
 apiVersion: tlou.kgolo/v1alpha1
 kind: XSandBoxGitFileGenerator
 metadata:
-  name: mars-generator
+  name: mars-application
 spec:
   testKube:
     test:
-      name:
-      type:
+      type: playwright/test
       repository:
-        type:
-        uri:
-        branch:
+        type: git
+        uri: https://github.com/TluwaniMS/basic-playwright-learning
+        branch: master
     testTrigger:
-      name:
       resourceSelector:
-        resourceType:
-        nameSpace:
-        resourceName:
-      testSelector:
-        testName:
+        resourceType: deployment
   appset:
-    name:
     generator:
-      repoUrl:
-      revision:
-      filePath:
+      repoUrl: https://github.com/TluwaniMS/argocd-app-of-app-test.git
+      revision: master
+      filePaths:
+        - 'basi-app-set-dev-test-with-git-file-generator/*.json'
     source:
-      repoUrl:
-      targetRevision:
+      repoUrl: https://github.com/TluwaniMS/basic-node-js-web-server-deployment
+      targetRevision: master

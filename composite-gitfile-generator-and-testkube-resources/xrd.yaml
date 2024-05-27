@@ -27,8 +27,6 @@ spec:
                     test:
                       type: object
                       properties:
-                        name:
-                          type: string
                         type:
                           type: string
                         repository:
@@ -43,27 +41,14 @@ spec:
                     testTrigger:
                       type: object
                       properties:
-                        name:
-                          type: string
                         resourceSelector:
                           type: object
                           properties:
                             resourceType:
                               type: string
-                            nameSpace:
-                              type: string
-                            resourceName:
-                              type: string
-                        testSelector:
-                          type: object
-                          properties:
-                            testName:
-                              type: string
                 appset:
                   type: object
                   properties:
-                    name:
-                      type: string
                     generator:
                       type: object
                       properties:
@@ -72,7 +57,9 @@ spec:
                         revision:
                           type: string
                         filePath:
-                          type: string
+                          type: array
+                          items:
+                            type: string
                     source:
                       type: object
                       properties:
