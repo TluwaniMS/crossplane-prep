@@ -31,20 +31,20 @@ spec:
           #
         - type: FromCompositeFieldPath
           fromFieldPath: 'spec.appset.gitFileGenerator.repoUrl'
-          toFieldPath: 'spec.forProvider.manifest.spec.generators[0].generators[1].repoURL'
+          toFieldPath: 'spec.forProvider.manifest.spec.generators[0].matrix.generators[1].github.repoURL'
         - type: FromCompositeFieldPath
           fromFieldPath: 'spec.appset.gitFileGenerator.revision'
-          toFieldPath: 'spec.forProvider.manifest.spec.generators[0].generators[1].revision'
+          toFieldPath: 'spec.forProvider.manifest.spec.generators[0].matrix.generators[1].github.revision'
         - type: FromCompositeFieldPath
           fromFieldPath: 'spec.appset.gitFileGenerator.files'
-          toFieldPath: 'spec.forProvider.manifest.spec.generators[0].generators[1].files'
+          toFieldPath: 'spec.forProvider.manifest.spec.generators[0].matrix.generators[1].github.files'
           #
         - type: FromCompositeFieldPath
           fromFieldPath: 'spec.appset.prGenerator.github.repo'
-          toFieldPath: 'spec.forProvider.manifest.spec.generators[0].generators[0].repo'
+          toFieldPath: 'spec.forProvider.manifest.spec.generators[0].matrix.generators[0].pullRequest.github.repo'
         - type: FromCompositeFieldPath
           fromFieldPath: 'spec.appset.prGenerator.github.owner'
-          toFieldPath: 'spec.forProvider.manifest.spec.generators[0].generators[0].owner'
+          toFieldPath: 'spec.forProvider.manifest.spec.generators[0].matrix.generators[0].pullRequest.github.owner'
       base:
         apiVersion: 'kubernetes.crossplane.io/v1alpha1'
         kind: Object
