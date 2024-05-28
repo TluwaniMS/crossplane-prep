@@ -43,6 +43,64 @@ The XRD delineates the custom API that users invoke to solicit the assortment of
 
 Claims epitomize a grouping of managed resources encapsulated within a singular Kubernetes object, situated within a namespace. Users instantiate claims upon accessing the bespoke API outlined in the CompositeResourceDefinition.
 
+Testkube install:
+
+testkube init
+
+Argocd :
+
+# argocd-app-of-app-test# Argocd App of Apps patterns, using the basic approach
+
+Basic way to set-up argocd.
+
+## Create an argocd namespace in your cluster
+
+```
+kubectl create namespace argocd
+```
+
+## Install argocd in your cluster
+
+```
+kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+```
+
+## Monitor progress of argocd pod creation
+
+```
+kubectl get pods -n argocd --watch
+```
+
+## Download argocd onto your machine:
+
+[download guide](https://argo-cd.readthedocs.io/en/stable/getting_started/#2-download-argo-cd-cli)
+
+```
+brew install argocd
+```
+
+## Forward a port from your local machine to the pod running the argocd-server
+
+```
+kubectl port-forward svc/argocd-server -n argocd 8080:443
+```
+
+## Get the admin password, to allow you to sign-in into the argo-ui
+
+```
+argocd admin initial-password -n argocd
+```
+
+## Open the argo ui
+
+https://localhost:8080
+
+## Login to argo on the cli:
+
+```
+argocd login localhost:8080
+```
+
 
 Crossplane installation:
 
@@ -59,6 +117,20 @@ helm install crossplane \
 --namespace crossplane-system \
 --create-namespace crossplane-stable/crossplane 
 ```
+
+Provider Installation:
+
+crossplane xpkg install provider xpkg.upbound.io/crossplane-contrib/provider-kubernetes:v0.13.0
+
+Komoplane installation:
+
+helm repo add komodorio https://helm-charts.komodor.io \
+  && helm repo update komodorio \
+  && helm upgrade --install komoplane komodorio/komoplane
+
+Port forward:
+
+kubectl port-forward svc/komoplane 8090:8090 
 
 Crossplane Config script:
 

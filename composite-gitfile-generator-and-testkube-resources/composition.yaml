@@ -19,13 +19,13 @@ spec:
               fmt: '%s-%s-test'
           toFieldPath: 'spec.forProvider.manifest.metadata.name'
         - type: FromCompositeFieldPath
-          fromFieldPath: 'spec.testKube.test.type'
+          fromFieldPath: 'spec.testkube.test.type'
           toFieldPath: 'spec.forProvider.manifest.spec.type'
         - type: FromCompositeFieldPath
-          fromFieldPath: 'spec.testKube.test.repository'
+          fromFieldPath: 'spec.testkube.test.repository'
           toFieldPath: 'spec.forProvider.manifest.spec.content.repository'
         - type: FromCompositeFieldPath
-          fromFieldPath: 'spec.testKube.test.environmentVariables.BASE_URL'
+          fromFieldPath: 'spec.testkube.test.environmentVariables.BASE_URL'
           toFieldPath: 'spec.forProvider.manifest.spec.executionRequest.variables.BASE_URL.value'
       base:
         apiVersion: 'kubernetes.crossplane.io/v1alpha1'
@@ -76,7 +76,7 @@ spec:
               fmt: '%s-%s-test-trigger'
           toFieldPath: 'spec.forProvider.manifest.metadata.name'
         - type: FromCompositeFieldPath
-          fromFieldPath: 'spec.testKube.testTrigger.resourceSelector.resourceType'
+          fromFieldPath: 'spec.testkube.testTrigger.resourceSelector.resourceType'
           toFieldPath: 'spec.forProvider.manifest.spec.resource'
         - type: CombineFromComposite
           combine:
@@ -135,13 +135,13 @@ spec:
           toFieldPath: 'spec.forProvider.manifest.metadata.name'
         - type: FromCompositeFieldPath
           fromFieldPath: 'spec.appset.generator.repoUrl'
-          toFieldPath: 'spec.forProvider.manifest.spec.generators[0].repoURL'
+          toFieldPath: 'spec.forProvider.manifest.spec.generators[0].git.repoURL'
         - type: FromCompositeFieldPath
           fromFieldPath: 'spec.appset.generator.revision'
-          toFieldPath: 'spec.forProvider.manifest.spec.generators[0].revision'
+          toFieldPath: 'spec.forProvider.manifest.spec.generators[0].git.revision'
         - type: FromCompositeFieldPath
           fromFieldPath: 'spec.appset.generator.files'
-          toFieldPath: 'spec.forProvider.manifest.spec.generators[0].files'
+          toFieldPath: 'spec.forProvider.manifest.spec.generators[0].git.files'
         - type: FromCompositeFieldPath
           fromFieldPath: 'spec.appset.source.repoUrl'
           toFieldPath: 'spec.forProvider.manifest.spec.template.spec.source.repoURL'
@@ -149,7 +149,7 @@ spec:
           fromFieldPath: 'spec.appset.source.targetRevision'
           toFieldPath: 'spec.forProvider.manifest.spec.template.spec.source.targetRevision'
         - type: FromCompositeFieldPath
-          fromFieldPath: 'spec.appset.appset.project'
+          fromFieldPath: 'spec.appset.project'
           toFieldPath: 'spec.forProvider.manifest.spec.template.spec.project'
         - type: CombineFromComposite
           combine:

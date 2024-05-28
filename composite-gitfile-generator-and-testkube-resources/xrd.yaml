@@ -65,7 +65,7 @@ spec:
                           type: string
                         revision:
                           type: string
-                        filePath:
+                        files:
                           type: array
                           items:
                             type: object

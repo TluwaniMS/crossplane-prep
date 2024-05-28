@@ -3,8 +3,8 @@ kind: XSandBoxGitFileGenerator
 metadata:
   name: mars-application
 spec:
-  pullRequest: feature/mars-01
-  testKube:
+  pullRequest: feature-mars-01
+  testkube:
     test:
       type: playwright/test
       repository:
@@ -12,7 +12,7 @@ spec:
         uri: https://github.com/TluwaniMS/basic-playwright-learning
         branch: master
       environmentVariables:
-        BASE_URL: ''
+        BASE_URL: 'http://localhost:3002'
     testTrigger:
       resourceSelector:
         resourceType: deployment
