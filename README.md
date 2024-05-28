@@ -59,3 +59,9 @@ helm install crossplane \
 --namespace crossplane-system \
 --create-namespace crossplane-stable/crossplane 
 ```
+
+Crossplane Config script:
+
+kubectl apply -f crossplane-composite-config/rbac.yaml
+
+kubectl apply -f crossplane-composite-config/provider.yaml
