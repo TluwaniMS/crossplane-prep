@@ -140,7 +140,7 @@ spec:
           fromFieldPath: 'spec.appset.generator.revision'
           toFieldPath: 'spec.forProvider.manifest.spec.generators[0].revision'
         - type: FromCompositeFieldPath
-          fromFieldPath: 'spec.appset.generator.filePath'
+          fromFieldPath: 'spec.appset.generator.files'
           toFieldPath: 'spec.forProvider.manifest.spec.generators[0].files'
         - type: FromCompositeFieldPath
           fromFieldPath: 'spec.appset.source.repoUrl'
@@ -149,7 +149,7 @@ spec:
           fromFieldPath: 'spec.appset.source.targetRevision'
           toFieldPath: 'spec.forProvider.manifest.spec.template.spec.source.targetRevision'
         - type: FromCompositeFieldPath
-          fromFieldPath: 'spec.appset.source.targetRevision'
+          fromFieldPath: 'spec.appset.appset.project'
           toFieldPath: 'spec.forProvider.manifest.spec.template.spec.project'
         - type: CombineFromComposite
           combine:

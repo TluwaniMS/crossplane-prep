@@ -43,11 +43,17 @@ spec:
                           type: string
                         revision:
                           type: string
-                        filePaths:
+                        files:
                           type: array
                           items:
                             type: object
                             properties:
                               path:
                                 type: string
-
+                    source:
+                      type: object
+                      properties:
+                        repoUrl:
+                          type: string
+                        targetRevision:
+                          type: string

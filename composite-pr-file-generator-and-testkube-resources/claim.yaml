@@ -12,5 +12,8 @@ spec:
     gitFileGenerator:
       repoUrl: https://github.com/TluwaniMS/argo-app-deployments
       revision: master
-      filePaths: 
+      files:
         - path: 'pr-dev-apps/*.json'
+    source:
+      repoUrl: https://github.com/TluwaniMS/basic-node-js-web-server-deployment
+      targetRevision: master

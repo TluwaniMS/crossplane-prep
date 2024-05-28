@@ -1,0 +1,123 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: Composition
+metadata:
+  name: xsandboxgitfilegenerators
+spec:
+  compositeTypeRef:
+    apiVersion: 'tlou.kgolo/v1alpha1'
+    kind: 'XSandBoxGitFileGenerator'
+  resources:
+    - name: 'ArgocdPrGenerator'
+      patches:
+        - type: CombineFromComposite
+          combine:
+            variables:
+              - fromFieldPath: 'metadata.name'
+            strategy: string
+            string:
+              fmt: '%s-argo-appset'
+          toFieldPath: 'spec.forProvider.manifest.metadata.name'
+          #
+        - type: FromCompositeFieldPath
+          fromFieldPath: 'spec.appset.project'
+          toFieldPath: 'spec.forProvider.manifest.spec.template.spec.project'
+          #
+        - type: FromCompositeFieldPath
+          fromFieldPath: 'spec.appset.source.repoUrl'
+          toFieldPath: 'spec.forProvider.manifest.spec.template.spec.source.repoURL'
+        - type: FromCompositeFieldPath
+          fromFieldPath: 'spec.appset.source.targetRevision'
+          toFieldPath: 'spec.forProvider.manifest.spec.template.spec.source.targetRevision'
+          #
+        - type: FromCompositeFieldPath
+          fromFieldPath: 'spec.appset.gitFileGenerator.repoUrl'
+          toFieldPath: 'spec.forProvider.manifest.spec.generators[0].generators[1].repoURL'
+        - type: FromCompositeFieldPath
+          fromFieldPath: 'spec.appset.gitFileGenerator.revision'
+          toFieldPath: 'spec.forProvider.manifest.spec.generators[0].generators[1].revision'
+        - type: FromCompositeFieldPath
+          fromFieldPath: 'spec.appset.gitFileGenerator.files'
+          toFieldPath: 'spec.forProvider.manifest.spec.generators[0].generators[1].files'
+          #
+        - type: FromCompositeFieldPath
+          fromFieldPath: 'spec.appset.prGenerator.github.repo'
+          toFieldPath: 'spec.forProvider.manifest.spec.generators[0].generators[0].repo'
+        - type: FromCompositeFieldPath
+          fromFieldPath: 'spec.appset.prGenerator.github.owner'
+          toFieldPath: 'spec.forProvider.manifest.spec.generators[0].generators[0].owner'
+      base:
+        apiVersion: 'kubernetes.crossplane.io/v1alpha1'
+        kind: Object
+        metadata:
+          name: 'argocd-appset-pr-generator'
+        spec:
+          providerConfigRef:
+            name: kubernetes-provider-config
+          forProvider:
+            manifest:
+              apiVersion: argoproj.io/v1alpha1
+              kind: ApplicationSet
+              metadata:
+                name: basic-argo-appset
+                namespace: argocd
+              spec:
+                goTemplate: true
+                goTemplateOptions: ['missingkey=error']
+                generators:
+                  - matrix:
+                      generators:
+                        - pullRequest:
+                            github:
+                              owner: TluwaniMS
+                              repo: basic-node-js-web-server-deployment
+                              tokenRef:
+                                secretName: app-set-basic-secret
+                                key: access_token
+                        - git:
+                            repoURL: ''
+                            revision: ''
+                            files: []
+                templatePatch: |
+                  spec:
+                    {{- if eq .name "test" }}
+                    destination:
+                      namespace: 'testkube'
+                    {{- end }}
+
+                    source:
+                      # Dev conditional config set-up.
+                      {{- if eq .name "dev" }}
+                      helm:
+                        parameters:
+                          - name: deployment.replicas
+                            value: {{.helmParameters.deployment.replicas | toJson }}
+                          - name: container.image
+                            value: {{.helmParameters.container.image | toJson }}
+                          - name: 'container.tag'
+                            value: {{.helmParameters.container.tag | toJson }}
+                      {{- end }}
+                      # Test conditional config set-up.
+                      {{- if eq .name "test" }}
+                      helm:
+                        parameters:
+                          - name: data.base_url
+                            value: http://localhost:3002
+                      {{- end }}
+                template:
+                  metadata:
+                    name: '{{lower .branch }}-{{.name}}-app'
+                  spec:
+                    project: default
+                    source:
+                      repoURL: https://github.com/TluwaniMS/basic-node-js-web-server-deployment
+                      targetRevision: master
+                      path: '{{.loc}}'
+                    destination:
+                      server: '{{.server}}'
+                      namespace: '{{lower .branch}}-apps'
+                    syncPolicy:
+                      automated:
+                        prune: true
+                        selfHeal: true
+                      syncOptions:
+                        - CreateNamespace=true
