@@ -1,11 +1,11 @@
 apiVersion: apiextensions.crossplane.io/v1
 kind: Composition
 metadata:
-  name: xsandboxgitfilegenerators
+  name: xsandboxprgenerators
 spec:
   compositeTypeRef:
     apiVersion: 'tlou.kgolo/v1alpha1'
-    kind: 'XSandBoxGitFileGenerator'
+    kind: 'XSandBoxPRGenerator'
   resources:
     - name: 'ArgocdPrGenerator'
       patches:
@@ -31,13 +31,13 @@ spec:
           #
         - type: FromCompositeFieldPath
           fromFieldPath: 'spec.appset.gitFileGenerator.repoUrl'
-          toFieldPath: 'spec.forProvider.manifest.spec.generators[0].matrix.generators[1].github.repoURL'
+          toFieldPath: 'spec.forProvider.manifest.spec.generators[0].matrix.generators[1].git.repoURL'
         - type: FromCompositeFieldPath
           fromFieldPath: 'spec.appset.gitFileGenerator.revision'
-          toFieldPath: 'spec.forProvider.manifest.spec.generators[0].matrix.generators[1].github.revision'
+          toFieldPath: 'spec.forProvider.manifest.spec.generators[0].matrix.generators[1].git.revision'
         - type: FromCompositeFieldPath
           fromFieldPath: 'spec.appset.gitFileGenerator.files'
-          toFieldPath: 'spec.forProvider.manifest.spec.generators[0].matrix.generators[1].github.files'
+          toFieldPath: 'spec.forProvider.manifest.spec.generators[0].matrix.generators[1].git.files'
           #
         - type: FromCompositeFieldPath
           fromFieldPath: 'spec.appset.prGenerator.github.repo'
@@ -102,6 +102,8 @@ spec:
                         parameters:
                           - name: data.base_url
                             value: http://localhost:3002
+                          - name: prBranchName
+                            value: {{lower .branch }}
                       {{- end }}
                 template:
                   metadata:
