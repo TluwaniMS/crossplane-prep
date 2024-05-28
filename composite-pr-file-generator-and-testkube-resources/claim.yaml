@@ -1,0 +1,16 @@
+apiVersion: tlou.kgolo/v1alpha1
+kind: XSandBoxPRGenerator
+metadata:
+  name: jupiter-application
+spec:
+  appset:
+    project: default
+    prGenerator:
+      github:
+        owner: TluwaniMS
+        repo: basic-node-js-web-server-deployment
+    gitFileGenerator:
+      repoUrl: https://github.com/TluwaniMS/argo-app-deployments
+      revision: master
+      filePaths: 
+        - path: 'pr-dev-apps/*.json'
